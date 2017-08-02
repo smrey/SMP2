@@ -31,9 +31,9 @@ the BAM index files. These files will be downloaded to the directory passed as t
 
 ### Caveats
 The script requires project names to be unique. The project name is entered in the Experiment Name field of the Illumina SampleSheet.csv. 
-Sample identifiers must be unique within a given project. 
 
-Sample identifiers are entered in the Sample_ID fields of the Illumina 
+
+Sample identifiers must be unique within a given project. Sample identifiers are entered in the Sample_ID fields of the Illumina 
 SampleSheet.csv.
 
 
