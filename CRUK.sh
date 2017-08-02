@@ -159,6 +159,11 @@ function launchApp {
 
 	while read pair
 		do
+			# Stop iteration on first empty line of SamplePairs.txt file in case EOF marker is absent for any reason
+			if [[ -z $pair ]]
+				then
+					exit
+			fi
 			echo "Launching app for ""$pair"
 			
 			tum=$(printf "$pair" | cut -d$'\t' -f1)
