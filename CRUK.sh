@@ -177,9 +177,9 @@ function launchApp {
 			echo "Downloading files"		
 
 			# Download required analysis results files
-			bs cp conf://"$CONFIG"/Projects/"$ProjectId"/appresults/"$appRes"/*.bam "$RESULTSFOLDER"
-			bs cp conf://"$CONFIG"/Projects/"$ProjectId"/appresults/"$appRes"/*.bai "$RESULTSFOLDER"
-			bs cp conf://"$CONFIG"/Projects/"$ProjectId"/appresults/"$appRes"/*.xls* "$RESULTSFOLDER"
+			bs cp conf://"$CONFIG"/Projects/"$projectId"/appresults/"$appRes"/*.bam "$RESULTSFOLDER"
+			bs cp conf://"$CONFIG"/Projects/"$projectId"/appresults/"$appRes"/*.bai "$RESULTSFOLDER"
+			bs cp conf://"$CONFIG"/Projects/"$projectId"/appresults/"$appRes"/*.xls* "$RESULTSFOLDER"
 
 	done <"$SAMPLEPAIRS"
 
