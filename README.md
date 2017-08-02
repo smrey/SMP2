@@ -29,6 +29,12 @@ The script will download the generated Excel spreadsheet for downstream analysis
 the BAM index files. These files will be downloaded to the directory passed as the second command line argument. 
 
 
+###Caveats
+The script requires project names to be unique. The project name is entered in the Experiment Name field of the Illumina SampleSheet.csv. 
+Sample identifiers must be unique within a given project. Sample identifiers are entered in the Sample_ID fields of the Illumina 
+SampleSheet.csv.
+
+
 ## Instructions for use
 ### Prerequisites
 The Illumina CLI must be correctly set up to point to the required BaseSpace location. A config file can be specified in the script.
