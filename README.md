@@ -24,17 +24,17 @@ order, which is tumour sample then normal sample for each patient in order. An e
 directory as the script and the name of the file and extension supplied as the fourth command line argument e.g. pairs.txt.
 
 
-## Files which will be downloaded
-The script will download the generated Excel spreadsheet for downstream analysis. It will also download all of the BAM files and 
-the BAM index files. These files will be downloaded to the directory passed as the second command line argument. 
-
-
 ### Caveats
 The script requires project names to be unique. The project name is entered in the Experiment Name field of the Illumina SampleSheet.csv. 
 
 
 Sample identifiers must be unique within a given project. Sample identifiers are entered in the Sample_ID fields of the Illumina 
 SampleSheet.csv.
+
+
+## Files which will be downloaded
+The script will download the generated Excel spreadsheet for downstream analysis. It will also download all of the BAM files and 
+the BAM index files. These files will be downloaded to the directory passed as the second command line argument. 
 
 
 ## Instructions for use
