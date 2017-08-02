@@ -159,7 +159,7 @@ function launchApp {
 
 	while read pair
 		do
-			echo "Launching app"
+			echo "Launching app for ""$pair"
 			
 			tum=$(printf "$pair" | cut -d$'\t' -f1)
 			nor=$(printf "$pair" | cut -d$'\t' -f2)
