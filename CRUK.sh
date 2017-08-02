@@ -39,8 +39,8 @@ fi
 
 
 # Variables
-CONFIG="saraEUPriv"
-APPNAME="SMP2 v2"
+CONFIG="pmg-euc1"
+APPID="80080"
 NOTBASESPACE="not_bs_samples.txt"
 INPUTFOLDER="$1"
 RESULTSFOLDER="$2"
@@ -169,7 +169,7 @@ function launchApp {
 			norId=$(bs -c "$CONFIG" list samples --project "$projectName" --sample "$nor" --terse)
 
 			# Launch app and store the appsession ID	
-			appSessionId=$(bs -c "$CONFIG" launch app -n "$APPNAME" "$negId" "$norId" "$projectName" "$tumId" --terse)
+			appSessionId=$(bs -c "$CONFIG" launch app -i "$APPID" "$negId" "$norId" "$projectName" "$tumId" --terse)
 	
 			# Wait for the app to complete and store the appsession ID	
 			appRes=$(bs -c "$CONFIG" wait "$appSessionId" --terse)
