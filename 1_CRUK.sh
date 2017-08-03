@@ -4,7 +4,7 @@ set -euo pipefail
 #Description: CRUK Basespace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version=0.6
+Version=0.7
 
 
 # How to use
@@ -45,6 +45,7 @@ NOTBASESPACE="not_bs_samples.txt"
 INPUTFOLDER="$1"
 RESULTSFOLDER="$2"
 NEGATIVE="$3"
+FASTQFOLDER="$INPUTFOLDER""/Data/Intensities/BaseCalls/"
 
 
 # Check for the presence of the file with samples not to upload to BaseSpace in the same directory as the script
@@ -136,8 +137,8 @@ function locateFastqs {
 	
 	for fastq in $(printf -- '%s\n' "$fastqlist")
 		do
-			f1=$INPUTFOLDER${fastq}*_R1_*.fastq.gz
-			f2=$INPUTFOLDER${fastq}*_R2_*.fastq.gz
+			f1=$FASTQFOLDER${fastq}*_R1_*.fastq.gz
+			f2=$FASTQFOLDER${fastq}*_R2_*.fastq.gz
 		
 			# Obtain basespace identifier for each sample
 			baseSpaceId=$(bs -c "$CONFIG" upload sample -p $projectName -i "$fastq" $f1 $f2 --terse)
