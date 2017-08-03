@@ -4,7 +4,7 @@ set -euo pipefail
 #Description: CRUK Basespace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version=0.4
+Version=0.6
 
 
 # How to use
