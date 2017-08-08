@@ -7,8 +7,8 @@ set -euo pipefail
 Version=0.7
 
 # Aliases for local python VE
-alias python='/home/transfer/virtualenv-15.0.1/myVE/bin/python'
-PATH="$PATH":/home/transfer/virtualenv-15.0.1/myVE/bin
+alias python='/home/transfer/basespace_vm/venv/bin/python'
+PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 
 # How to use
 # bash CRUK.sh <path_to_sample_sheet> <path_to_results_location> <config_file_name> <name_of_negative_control_sample> <sample_pairs_text_file>
