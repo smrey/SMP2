@@ -13,6 +13,15 @@ PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 # How to use
 # bash CRUK.sh <path_to_sample_sheet> <path_to_results_location> <config_file_name> <name_of_negative_control_sample> <sample_pairs_text_file>
 
+# Variables
+CONFIG="pmg-euc1"
+APPID="80080"
+NOTBASESPACE="not_bs_samples.txt"
+INPUTFOLDER="$1"
+RESULTSFOLDER="$2"
+NEGATIVE="$3"
+FASTQFOLDER="$INPUTFOLDER""/Data/Intensities/BaseCalls/"
+
 
 # Usage checking
 if [ "$#" -lt 3 ]
@@ -39,16 +48,6 @@ if [ "$#" -lt 4 ]
 		# Skip generation of a SamplePairs.txt file
 		makePairs=-1
 fi
-
-
-# Variables
-CONFIG="pmg-euc1"
-APPID="80080"
-NOTBASESPACE="not_bs_samples.txt"
-INPUTFOLDER="$1"
-RESULTSFOLDER="$2"
-NEGATIVE="$3"
-FASTQFOLDER="$INPUTFOLDER""/Data/Intensities/BaseCalls/"
 
 
 # Check for the presence of the file with samples not to upload to BaseSpace in the same directory as the script
