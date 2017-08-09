@@ -106,7 +106,7 @@ function pairSamples {
 	echo "Pairing samples"
 
 	# Create/clear file which holds the sample name and the patient identifiers
-	> "$INPUTFOLDER""$SAMPLEPAIRS"
+	> "$SAMPLEPAIRS"
 	
 	# Iterate through the samples and exclude any samples that are not for basespace
 	# Pair the samples assuming the order tumour then normal and create a file of these pairs
@@ -180,7 +180,7 @@ function launchApp {
 			appSessionId=$(bs -c "$CONFIG" launch app -i "$APPID" "$negId" "$norId" "$projectName" "$tumId" --terse)
 	
 
-	done <"$INPUTFOLDER""$SAMPLEPAIRS"
+	done <"$SAMPLEPAIRS"
 
 }
 
@@ -209,7 +209,7 @@ fi
 
 # Read out the sample pairs in the order tumour blood with each pair on a new line 
 echo "Displaying sample pairs:" 
-cat "$INPUTFOLDER""$SAMPLEPAIRS"
+cat "$SAMPLEPAIRS"
 printf $'\n'
 echo "Abort the script if the samples are paired incorrectly and create a file of the pairs (see README.MD for details about this file)." 
 printf $'\n'
