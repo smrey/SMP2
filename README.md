@@ -1,7 +1,6 @@
 # CRUK.sh script
 ## Introduction
-This script takes fastq files in the location specified by the first command line argument, and runs the SMP2 app in the 
-basespace environment for each of the tumour sample blood sample pairs. 
+This script takes fastq files and runs the SMP2 app in the basespace environment for each of the tumour sample blood sample pairs. 
 
 
 The functionality to download the required output files for further analysis and interpretation has been removed due to local
