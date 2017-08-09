@@ -4,47 +4,39 @@ set -euo pipefail
 #Description: CRUK Basespace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version=0.8
+Version=0.9
 
 # Aliases for local python VE
 alias python='/home/transfer/basespace_vm/venv/bin/python'
 PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 
 # How to use
-# bash CRUK.sh <path_to_sample_sheet> <path_to_results_location> <config_file_name> <name_of_negative_control_sample> <sample_pairs_text_file>
+# bash CRUK.sh <path_to_sample_sheet> <name_of_negative_control_sample> <sample_pairs_text_file (optional)>
 
 # Variables
 CONFIG="pmg-euc1"
 APPID="91091"
 NOTBASESPACE="not_bs_samples.txt"
 INPUTFOLDER="$1"
-RESULTSFOLDER="$2"
-NEGATIVE="$3"
+NEGATIVE="$2"
 FASTQFOLDER="$INPUTFOLDER""/Data/Intensities/BaseCalls/"
 
 
 # Usage checking
-if [ "$#" -lt 3 ]
+if [ "$#" -lt 2 ]
 	then
-		echo "Commandline args incorrect. Usage: $0 <path_to_sample_sheet> <path_to_results_location> <name_of_negative_control_sample>." 
-		exit -1
-fi
-
-# Check output directory exists
-if ! [[ -d $2 ]]
-	then 
-		echo "Output directory for results does not exist."
+		echo "Commandline args incorrect. Usage: $0 <path_to_sample_sheet> <name_of_negative_control_sample> <sample_pairs_text_file (optional)>." 
 		exit -1
 fi
 
 
 # Check if file containing sample pairs has been supplied or if one should be automatically generated
-if [ "$#" -lt 4 ]
+if [ "$#" -lt 3 ]
 	then
 		SAMPLEPAIRS="$INPUTFOLDER""SamplePairs.txt"
 		makePairs=1
 	else
-		SAMPLEPAIRS="$4"
+		SAMPLEPAIRS="$3"
 		# Skip generation of a SamplePairs.txt file
 		makePairs=-1
 fi
