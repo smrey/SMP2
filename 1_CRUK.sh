@@ -4,7 +4,7 @@ set -euo pipefail
 #Description: CRUK Basespace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version=0.7
+Version=0.8
 
 # Aliases for local python VE
 alias python='/home/transfer/basespace_vm/venv/bin/python'
@@ -32,7 +32,7 @@ fi
 # Check if file containing sample pairs has been supplied or if one should be automatically generated
 if [ "$#" -lt 4 ]
 	then
-		SAMPLEPAIRS="SamplePairs.txt"
+		SAMPLEPAIRS="$INPUTFOLDER""SamplePairs.txt"
 		makePairs=1
 	else
 		SAMPLEPAIRS="$4"
@@ -107,7 +107,7 @@ function pairSamples {
 	echo "Pairing samples"
 
 	# Create/clear file which holds the sample name and the patient identifiers
-	> "$SAMPLEPAIRS"
+	> "$INPUTFOLDER""$SAMPLEPAIRS"
 	
 	# Iterate through the samples and exclude any samples that are not for basespace
 	# Pair the samples assuming the order tumour then normal and create a file of these pairs
@@ -122,7 +122,7 @@ function pairSamples {
 	fi	
 	
 	# Exclude non tumour-normal pairs from pair file creation		
-	grep -f <(printf -- '%s\n' "${notPairs[@]}") -v <(printf '%s\n' "${samplesArr[@]:1}") | awk -F '\t' 'NR % 2 {printf "%s\t", $1;} !(NR % 2) {printf "%s\n", $1;}' >"$SAMPLEPAIRS"
+	grep -f <(printf -- '%s\n' "${notPairs[@]}") -v <(printf '%s\n' "${samplesArr[@]:1}") | awk -F '\t' 'NR % 2 {printf "%s\t", $1;} !(NR % 2) {printf "%s\n", $1;}' >"$INPUTFOLDER""$SAMPLEPAIRS"
 
 }
 
@@ -181,7 +181,7 @@ function launchApp {
 			appSessionId=$(bs -c "$CONFIG" launch app -i "$APPID" "$negId" "$norId" "$projectName" "$tumId" --terse)
 	
 
-	done <"$SAMPLEPAIRS"
+	done <"$INPUTFOLDER""$SAMPLEPAIRS"
 
 }
 
@@ -210,7 +210,7 @@ fi
 
 # Read out the sample pairs in the order tumour blood with each pair on a new line 
 echo "Displaying sample pairs:" 
-cat "$SAMPLEPAIRS"
+cat "$INPUTFOLDER""$SAMPLEPAIRS"
 printf $'\n'
 echo "Abort the script if the samples are paired incorrectly and create a file of the pairs (see README.MD for details about this file)." 
 printf $'\n'
