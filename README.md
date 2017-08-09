@@ -1,4 +1,5 @@
-# CRUK.sh script
+# CRUK Analysis with the SMP2 v2 app
+# 1_CRUK.sh script
 ## Introduction
 This script takes fastq files and runs the SMP2 app in the basespace environment for each of the tumour sample blood sample pairs. 
 
@@ -51,8 +52,8 @@ The SMP2 app must have been imported. Instructions to import apps are available 
 
 
 ### Instructions for running the script
-  * Pass the full path to the SampleSheet.csv file for the run to be analysed as the first command line argument. 
-  ** The assumption is that this will be the path to the run and that the fastqs will be located within the 
+  * Pass the full path to the SampleSheet.csv file for the run to be analysed as the first command line argument. The assumption is 
+  that this will be the path to the run and that the fastqs will be located within the 
   <RUN_ID>/Data/Intensities/BaseCalls/ directory as they would be if they were generated using the Illumina MiSeq Reporter software. 
   If this is not the location of the fastq files, the variable $FASTQFOLDER within the script should be changed.
 
@@ -66,7 +67,7 @@ the names of these samples should be placed in a file called "not_bs_samples.txt
 should be placed in the same directory as the script.
 
 #### Full example
-bash CRUK.sh /path/to/samplesheet/ NEGATIVECONTROL pairs.txt
+bash 1_CRUK.sh /path/to/samplesheet/ NEGATIVECONTROL pairs.txt
 
 Note that the third argument is optional.
 
