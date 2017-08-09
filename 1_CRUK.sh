@@ -15,7 +15,7 @@ PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 
 # Variables
 CONFIG="pmg-euc1"
-APPID="80080"
+APPID="91091"
 NOTBASESPACE="not_bs_samples.txt"
 INPUTFOLDER="$1"
 RESULTSFOLDER="$2"
