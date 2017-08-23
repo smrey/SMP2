@@ -4,22 +4,19 @@ set -euo pipefail
 #Description: CRUK Basespace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version=0.9
+Version=1.0
 
 # Aliases for local python VE
 alias python='/home/transfer/basespace_vm/venv/bin/python'
 PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 
 # How to use
-# bash CRUK.sh <path_to_sample_sheet> <name_of_negative_control_sample> <sample_pairs_text_file (optional)>
+# bash 1_CRUK.sh <path_to_sample_sheet> <name_of_negative_control_sample> <sample_pairs_text_file (optional)>
 
 # Variables
 CONFIG="pmg-euc1"
 APPID="91091"
 NOTBASESPACE="not_bs_samples.txt"
-INPUTFOLDER="$1"
-NEGATIVE="$2"
-FASTQFOLDER="$INPUTFOLDER""/Data/Intensities/BaseCalls/"
 
 
 # Usage checking
@@ -29,6 +26,10 @@ if [ "$#" -lt 2 ]
 		exit -1
 fi
 
+# Variables dependent on command line arguments
+INPUTFOLDER="$1"
+NEGATIVE="$2"
+FASTQFOLDER="$INPUTFOLDER""/Data/*/"
 
 # Check if file containing sample pairs has been supplied or if one should be automatically generated
 if [ "$#" -lt 3 ]
@@ -76,7 +77,6 @@ function parseSampleSheet {
 	# Obtain list of samples from sample sheet
 	for line in $(sed "1,/Sample_ID/d" "$INPUTFOLDER""SampleSheet.csv" | tr -d " ")
 		do 
-		
 			# Obtain sample name and patient name		
 			samplename=$(printf "$line" | cut -d, -f1 | sed 's/[^a-zA-Z0-9]+/-/g')
 
@@ -88,7 +88,6 @@ function parseSampleSheet {
 
 			# Append information to list array- to retain order for sample pairing
 			samplesArr=("${samplesArr[@]}" "$samplename")
-
 	done
 }
 
@@ -136,7 +135,6 @@ function locateFastqs {
 		
 			# Obtain basespace identifier for each sample
 			baseSpaceId=$(bs -c "$CONFIG" upload sample -p $projectName -i "$fastq" $f1 $f2 --terse)
-
 	done
 
 }
@@ -170,8 +168,6 @@ function launchApp {
 
 			# Launch app and store the appsession ID	
 			appSessionId=$(bs -c "$CONFIG" launch app -i "$APPID" "$negId" "$norId" "$projectName" "$tumId" --terse)
-	
-
 	done <"$SAMPLEPAIRS"
 
 }
