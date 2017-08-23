@@ -54,20 +54,26 @@ The SMP2 app must have been imported. Instructions to import apps are available 
 ### Instructions for running the script
   * Pass the full path to the SampleSheet.csv file for the run to be analysed as the first command line argument. The assumption is 
   that this will be the path to the run and that the fastqs will be located within the 
-  <RUN_ID>/Data/Intensities/BaseCalls/ directory as they would be if they were generated using the Illumina MiSeq Reporter software. 
-  If this is not the location of the fastq files, the variable $FASTQFOLDER within the script should be changed.
+  /data/archive/fastq/<RUN_ID>/Data/<SAMPLE_ID>/ 
+  directory as they would be if they were generated using the Illumina bcl2fastq on the local cluster. 
+  If this is not the location of the fastq files, the variable $FASTQFOLDER within the script should be changed to the
+  location of the fastq files.
 
   * Pass the sample name of the negative control sample as the second command line argument.
 
-  * If a manually created file containing the tumour blood pairs is required, place this file in the same directory as the script. Pass the
-name of this file as the third command line argument.
+  * If a manually created file containing the tumour blood pairs is required, place this file on the same computer as the script and
+  files to be analysed. Pass the full path to the file, the name of this file and the extension as the third command line argument.
+  e.g. /path/to/pairs/file/pairs.txt. 
+  
+  * If the automatic pair generation option is used (default), the automatically generated SamplePairs.txt file will be created in the
+  same location as the SampleSheet.csv.
 
   * If there are samples which were run, and so are on the sample sheet, that are not required to be analysed using the SMP2 BaseSpace application, 
 the names of these samples should be placed in a file called "not_bs_samples.txt" with each name on a new line. The file "not_bs_samples.txt"
 should be placed in the same directory as the script.
 
 #### Full example
-bash 1_CRUK.sh /path/to/samplesheet/ NEGATIVECONTROL pairs.txt
+bash 1_CRUK.sh /path/to/samplesheet/ NEGATIVECONTROL /path/to/pairs/file/pairs.txt
 
 Note that the third argument is optional.
 
