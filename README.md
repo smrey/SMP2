@@ -18,7 +18,7 @@ https://help.basespace.illumina.com/articles/descriptive/basespace-cli/.
 
   * Fastq pairs (read 1 and read 2) for each of the samples.
 
-  * An optional text file called "not_bs_samples.txt" containing the names of any samples on the Illumina SampleSheet.csv for which
+  * An optional text file called "not_bs.txt" containing the names of any samples on the Illumina SampleSheet.csv for which
 analysis in BaseSpace with the SMP2 app is not required. This should be placed in the same location as the script.
 
   * An optional text file containing tumour normal pairs in the format <tumour_sample_id> <tab> <blood_sample_id> with each 
@@ -69,7 +69,7 @@ The SMP2 app must have been imported. Instructions to import apps are available 
   same location as the SampleSheet.csv.
 
   * If there are samples which were run, and so are on the sample sheet, that are not required to be analysed using the SMP2 BaseSpace application, 
-the names of these samples should be placed in a file called "not_bs_samples.txt" with each name on a new line. The file "not_bs_samples.txt"
+the names of these samples should be placed in a file called "not_bs.txt" with each name on a new line. The file "not_bs.txt"
 should be placed in the same directory as the script.
 
 #### Full example

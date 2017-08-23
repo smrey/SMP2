@@ -16,7 +16,7 @@ PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 # Variables
 CONFIG="pmg-euc1"
 APPID="91091"
-NOTBASESPACE="not_bs_samples.txt"
+NOTBASESPACE="not_bs.txt"
 
 
 # Usage checking
@@ -212,8 +212,8 @@ bs -c "$CONFIG" create project "$projectName"
 locateFastqs
 
 
-# Kick off the app for each pair in turn and donwload files
+# Kick off the app for each pair in turn and download files
 launchApp
 
-
-
+# Delete the file that contained the samples that were not for upload and analysis in BaseSpace
+rm "$NOTBASESPACE"
