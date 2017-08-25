@@ -205,15 +205,15 @@ printf $'\n'
 
 # Create project in basespace
 echo "Creating project"
-bs -c "$CONFIG" create project "$projectName"
+#bs -c "$CONFIG" create project "$projectName" ####
 
 
 # Get fastqs and upload to basespace
-locateFastqs
+#locateFastqs ####
 
 
 # Kick off the app for each pair in turn and download files
-launchApp
+#launchApp ####
 
 # Delete the file that contained the samples that were not for upload and analysis in BaseSpace
 rm "$NOTBASESPACE"
