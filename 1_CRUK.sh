@@ -7,8 +7,8 @@ set -euo pipefail
 Version=1.0
 
 # Aliases for local python VE
-alias python='/home/transfer/basespace_vm/venv/bin/python'
-PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
+#alias python='/home/transfer/basespace_vm/venv/bin/python' ####
+#PATH="$PATH":/home/transfer/basespace_vm/venv/bin/ ####
 
 # How to use
 # bash 1_CRUK.sh <path_to_sample_sheet> <name_of_negative_control_sample> <sample_pairs_text_file (optional)>
@@ -50,13 +50,13 @@ if [[ -e $NOTBASESPACE ]]
 		# Check that the provided file is not empty
 		if ! [[ -s $NOTBASESPACE ]]
 			then
-				echo "The file "not_bs_samples.txt" is empty. When this file exists, it must contain the names of samples that are in the SampleSheet.csv, but should not be uploaded to BaseSpace."
+				echo "The file "$NOTBASESPACE" is empty. When this file exists, it must contain the names of samples that are in the SampleSheet.csv, but should not be uploaded to BaseSpace."
 				exit -1
 		fi
 	else
 		samples_to_skip=-1
 		# Notify the user that all samples in the sample sheet will be uploaded
-		echo "No "not_bs_samples.txt" file found in the same directory as the script. All samples on the SampleSheet.csv will be uploaded to BaseSpace."
+		echo "No "$NOTBASESPACE" file found in the same directory as the script. All samples on the SampleSheet.csv will be uploaded to BaseSpace."
 fi
 
 
@@ -217,3 +217,6 @@ echo "Creating project"
 
 # Delete the file that contained the samples that were not for upload and analysis in BaseSpace
 rm "$NOTBASESPACE"
+
+# Queue next script in the pipeline for half an hours time- test syntax
+at now +30 minutes -f ./<name_of_script>
