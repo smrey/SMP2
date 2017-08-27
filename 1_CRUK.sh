@@ -194,6 +194,8 @@ if [[ "$makePairs" == 1 ]]
 		pairSamples
 fi
 
+# Count number of paired samples
+echo $(cat "$SAMPLEPAIRS" | wc -l)
 
 # Read out the sample pairs in the order tumour blood with each pair on a new line 
 echo "Displaying sample pairs:" 
@@ -216,7 +218,10 @@ echo "Creating project"
 #launchApp ####
 
 # Delete the file that contained the samples that were not for upload and analysis in BaseSpace
-rm "$NOTBASESPACE"
+if [[ -e $NOTBASESPACE ]]
+	then
+		rm "$NOTBASESPACE"
+fi
 
 # Queue next script in the pipeline for half an hours time- test syntax
-at now +30 minutes -f ./<name_of_script>
+#at now +30 minutes -f ./<name_of_script>
