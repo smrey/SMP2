@@ -169,7 +169,7 @@ function launchApp {
 			# Launch app and store the appsession ID	
 			appSessionId=$(bs -c "$CONFIG" launch app -i "$APPID" "$negId" "$norId" "$projectName" "$tumId" --terse)
 
-			# Store the appsession ID with an identifier for which pair 
+			# Store the appsession ID with an identifier for which pair- this is not needed
 			# HOW????	
 
 	done <"$SAMPLEPAIRS"
@@ -199,10 +199,7 @@ if [[ "$makePairs" == 1 ]]
 fi
 
 # Count number of paired samples
-echo $(cat "$SAMPLEPAIRS" | wc -l)
-
-# Add number of paired samples to config file. Also add name of config stored in $CONFIG file
-
+numPairs=$(cat "$SAMPLEPAIRS" | cut -f2 | wc -l)
 
 # Read out the sample pairs in the order tumour blood with each pair on a new line 
 echo "Displaying sample pairs:" 
@@ -223,6 +220,11 @@ echo "Creating project"
 
 # Kick off the app for each pair in turn and download files
 #launchApp ####
+
+# Write config file for JavaScript script
+#temp variable
+projectId="100" ##DELETEME##
+printf '%s\n' "{" "\"projectID\": ""\"$projectId\"""," "\"numPairs\": ""\"$numPairs\"" "}" > runConfig.json
 
 # Delete the file that contained the samples that were not for upload and analysis in BaseSpace
 if [[ -e $NOTBASESPACE ]]
