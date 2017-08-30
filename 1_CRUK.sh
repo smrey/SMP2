@@ -168,6 +168,10 @@ function launchApp {
 
 			# Launch app and store the appsession ID	
 			appSessionId=$(bs -c "$CONFIG" launch app -i "$APPID" "$negId" "$norId" "$projectName" "$tumId" --terse)
+
+			# Store the appsession ID with an identifier for which pair 
+			# HOW????	
+
 	done <"$SAMPLEPAIRS"
 
 }
@@ -196,6 +200,9 @@ fi
 
 # Count number of paired samples
 echo $(cat "$SAMPLEPAIRS" | wc -l)
+
+# Add number of paired samples to config file. Also add name of config stored in $CONFIG file
+
 
 # Read out the sample pairs in the order tumour blood with each pair on a new line 
 echo "Displaying sample pairs:" 
