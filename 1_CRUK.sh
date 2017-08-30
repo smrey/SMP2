@@ -168,10 +168,6 @@ function launchApp {
 
 			# Launch app and store the appsession ID	
 			appSessionId=$(bs -c "$CONFIG" launch app -i "$APPID" "$negId" "$norId" "$projectName" "$tumId" --terse)
-
-			# Store the appsession ID with an identifier for which pair- this is not needed
-			# HOW????	
-
 	done <"$SAMPLEPAIRS"
 
 }
