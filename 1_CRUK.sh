@@ -220,7 +220,7 @@ echo "Creating project"
 # Write config file for JavaScript script
 #temp variable
 projectId="100" ##DELETEME##
-printf '%s\n' "{" "\"projectID\": ""\"$projectId\"""," "\"numPairs\": ""\"$numPairs\"" "}" > runConfig.json
+printf '%s\n' "{" "\"projectID\": ""\"$projectId\"""," "\"numPairs\": ""\"$numPairs\"""," "\"negativeControl\": ""\"$NEGATIVE\""  "}" > runConfig.json
 
 # Delete the file that contained the samples that were not for upload and analysis in BaseSpace
 if [[ -e $NOTBASESPACE ]]
