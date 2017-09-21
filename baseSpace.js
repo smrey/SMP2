@@ -2,10 +2,10 @@ var nano = process.argv.slice(2);
 
 // Load node modules
 var request = require(nano + '/node_modules/request');
-var fs = require(nano + '/node_modules/fs');
+var fs = require('fs');
 // Load configuration files
-var config = require('./config.json');
-var runconfig = require('./runConfig.json')
+var config = JSON.parse(fs.readFileSync('./config.json'));
+var runconfig = JSON.parse(fs.readFileSync('./runConfig.json'));
 
 var APISERVER = config.apiServer;
 var APIVERSION = config.apiVersion;
@@ -27,12 +27,8 @@ var APPRES;
 var TEMPLATE = "SMP2_CRUK_V2_03.15.xlsx"; //Update manually if it changes
 
 // Variables- adjust these to the desired intervals for polling and timeout of the script
-var POLLINGINTERVAL = 60000; //Change to 60000 for live
+var POLLINGINTERVAL = 10000; //Change to 60000 for live
 var TIMEOUT = 7200000; // 60000 is 1 minute // 7200000 is 2 hours
-
-//temp vars
-var fileID = config.get("fileIDexample");
-var appResultID = config.get("appResultIDexample");
 
 //Access appResults through projectid
 //This is asynchronous- need to put in a callback to ensure that we can access the data
@@ -150,9 +146,9 @@ s
 function poll(){
     var refresh = setInterval(function(){
         appResultsByProject(function(err, appRes){
-            if (err) return console.log(err);
+            if (err) throw new Error(console.log(err));
             checkAppResultsComplete(appRes, refresh, function(err, appResIds) {
-                if (err) return console.log(err);
+                if (err) throw new Error(console.log(err));
                 iterator(APPRES=appResIds, J=0, function(output){
                     console.log(output)});
             });
