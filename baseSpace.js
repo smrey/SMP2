@@ -1,20 +1,20 @@
 var nano = process.argv.slice(2);
 
+// Load node modules
 var request = require(nano + '/node_modules/request');
-var config = require(nano + '/node_modules/config-json');
 var fs = require(nano + '/node_modules/fs');
-//Load generic config file
-config.load("config.json");
+// Load configuration files
+var config = require('./config.json');
+var runconfig = require('./runConfig.json')
 
-var APISERVER = config.get('apiServer');
-var APIVERSION = config.get('apiVersion');
+var APISERVER = config.apiServer;
+var APIVERSION = config.apiVersion;
 //Set accessToken variable from the config file
-var ACCESSTOKEN = config.get('accessToken');
-//Load run-specific config file
-config.load("runConfig.json");
-var NUMPAIRS = config.get("numPairs");
-var PROJECTID = config.get("projectID");
-var NEGATIVECONTROL = config.get("negativeControl");
+var ACCESSTOKEN = config.accessToken;
+//Load run-specific config files
+var NUMPAIRS = runconfig.numPairs;
+var PROJECTID = runconfig.projectID;
+var NEGATIVECONTROL = runconfig.negativeControl;
 
 // Obtain time at which script was launched to enable later timeout
 var STARTTIME = new Date().getTime();
