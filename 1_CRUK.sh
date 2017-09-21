@@ -4,11 +4,11 @@ set -euo pipefail
 #Description: CRUK Basespace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version=1.0
+Version=2.0
 
 # Aliases for local python VE
-#alias python='/home/transfer/basespace_vm/venv/bin/python' ####
-#PATH="$PATH":/home/transfer/basespace_vm/venv/bin/ ####
+alias python='/home/transfer/basespace_vm/venv/bin/python' ####
+PATH="$PATH":/home/transfer/basespace_vm/venv/bin/ ####
 
 # How to use
 # bash 1_CRUK.sh <path_to_sample_sheet> <name_of_negative_control_sample> <sample_pairs_text_file (optional)>
@@ -207,20 +207,19 @@ printf $'\n'
 
 # Create project in basespace
 echo "Creating project"
-#bs -c "$CONFIG" create project "$projectName" ####
+bs -c "$CONFIG" create project "$projectName"
 
 
 # Get fastqs and upload to basespace
-#locateFastqs ####
+locateFastqs
 
 
 # Kick off the app for each pair in turn and download files
-#launchApp ####
+launchApp
 
 # Write config file for JavaScript script
-#temp variable
-projectId="100" ##DELETEME##
 printf '%s\n' "{" "\"projectID\": ""\"$projectId\"""," "\"numPairs\": ""\"$numPairs\"""," "\"negativeControl\": ""\"$NEGATIVE\""  "}" > runConfig.json
+
 
 # Delete the file that contained the samples that were not for upload and analysis in BaseSpace
 if [[ -e $NOTBASESPACE ]]
@@ -228,5 +227,6 @@ if [[ -e $NOTBASESPACE ]]
 		rm "$NOTBASESPACE"
 fi
 
+
 # Queue next script in the pipeline for half an hours time- test syntax
-#at now +30 minutes -f ./<name_of_script>
+at now +30 minutes -f ./2_CRUK.sh

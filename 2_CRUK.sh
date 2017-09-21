@@ -4,23 +4,15 @@ set -euo pipefail
 #Description: CRUK Basespace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version=0.1
+Version=2.0
 
-# Aliases for local python VE
-alias python='/home/transfer/basespace_vm/venv/bin/python'
-PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
+# Path to node
+NODE="/share/apps/node-distros/node-v6.11.3-linux-x64/bin/"
+#NODE=""
 
-# How to use
-# bash 2_CRUK.sh <path/to/local/folder/to/download/results/>
+# Path to location of node_modules
+NODE_MOD=$(echo $NODE | awk -F '/' 'BEGIN {OFS = FS} {print $1, $2, $3, $4, $5}')
 
-# Variables- load in from config file
-CONFIG=
-projectId=
-appResultsId=
-
-
-bs cp conf://"$CONFIG"/Projects/"$projectId"/appresults/"$appResultsId"/*.bam "$RESULTSFOLDER"
-bs cp conf://"$CONFIG"/Projects/"$projectId"/appresults/"$appResultsId"/*.bai "$RESULTSFOLDER"
-bs cp conf://"$CONFIG"/Projects/"$projectId"/appresults/"$appResultsId"/*.xls* "$RESULTSFOLDER"
-
-# Check files have been downloaded and Clear config file ready for next run
+# Launch node javascript file and pass node path to script
+"$NODE"node ./baseSpace.js "$NODE_MOD"
+#"$NODE"node ./hello.js #for testing only

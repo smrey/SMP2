@@ -1,16 +1,13 @@
+var nano = process.argv.slice(2);
 
-var request = require('request');
-var config = require('config-json');
-var fs = require('fs');
+var request = require(nano + '/node_modules/request');
+var config = require(nano + '/node_modules/config-json');
+var fs = require(nano + '/node_modules/fs');
 //Load generic config file
 config.load("config.json");
 
-//var CLIENTKEY = config.get('clientKey');
-//var CLIENTSECRET = config.get('clientSecret');
 var APISERVER = config.get('apiServer');
 var APIVERSION = config.get('apiVersion');
-//Set the device code from the config file
-//var DEVICECODE = config.get('deviceCode');
 //Set accessToken variable from the config file
 var ACCESSTOKEN = config.get('accessToken');
 //Load run-specific config file
@@ -30,7 +27,7 @@ var APPRES;
 var TEMPLATE = "SMP2_CRUK_V2_03.15.xlsx"; //Update manually if it changes
 
 // Variables- adjust these to the desired intervals for polling and timeout of the script
-var POLLINGINTERVAL = 10000; //Change to 60000 for live
+var POLLINGINTERVAL = 60000; //Change to 60000 for live
 var TIMEOUT = 7200000; // 60000 is 1 minute // 7200000 is 2 hours
 
 //temp vars
@@ -79,22 +76,17 @@ function checkAppResultsComplete(appResults, refresh, cb) {
     else if (appResultsLen === NUMPAIRS && numComplete === NUMPAIRS) {
         clearInterval(refresh);
         console.log("All appSessions complete");
-        //setTimeout(function(){appResultsByProject(checkAppResultsComplete)}, POLLINGINTERVAL)  //temp for testing
         //In here want to call another function to kick off getting appresults, getting fileids and download of results
         return cb(null, appResultsArr);
-        //return cb(iterAppRes(appResultsArr, 0, function(){}));
-        //return cb(iterator(APPRES=appResultsArr, J=0, function(output){console.log(output)}));
     }
 }
 
 function iterator(appRes, j, cb) {
     var appResId = appRes[j];
     if (appRes.length === j) {
-        //cb("File ids retrieved");
         return (console.log("Files retrieved"))
     }
     getFileIds(appResId, function(err, fileIds) {
-        //console.log(fileIds);
         if (err) {
             return cb(Error(err));
         }else {
@@ -112,11 +104,9 @@ function iterFileId(appResFiles, i) {
     if (i < (numFiles-1)) {
         var fileId = appResFiles.Response.Items[i].Id;
         var fileName = appResFiles.Response.Items[i].Name;
-        //console.log(fileId);
         if (fileName !== TEMPLATE && fileName !== NEGATIVECONTROL + ".bam") {
             downloadFile(fileId, fileName, function(err, result){
                 if (err) {
-                    //return console.log(Error(err));
                     throw new Error(console.log("File download failed ") + err);
                 }else {
                     console.log(result);
@@ -153,7 +143,7 @@ function downloadFile(fileIdentifier, outFile, cb) {
         APISERVER + APIVERSION + "/files/" + fileIdentifier + "/content",
         {qs: {"access_token": ACCESSTOKEN}}).on('error', function(err) {cb(Error(err))})
         .pipe(writeFile).on('close', function(){cb(null, "Download Success " + outFile)});
-    //Everything is being returned to the error channel
+s
 }
 
 // Repeatedly call the function to check if the results are complete or not
@@ -173,6 +163,3 @@ function poll(){
 
 // Call function
 poll();
-
-//var filei = 68566466;
-//downloadFile(filei, "1.file",function(err,r){if (err){ return console.log(Error(err))} else{return console.log(r)}});
