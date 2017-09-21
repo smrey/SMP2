@@ -1,6 +1,5 @@
 {
-"clientKey": "",
-"clientSecret": "",
 "apiServer": "https://api.basespace.illumina.com/",
 "apiVersion": "v1pre3"
+"accessToken": ""
 }
