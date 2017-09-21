@@ -7,8 +7,8 @@ set -euo pipefail
 Version=2.0
 
 # Aliases for local python VE
-alias python='/home/transfer/basespace_vm/venv/bin/python' ####
-PATH="$PATH":/home/transfer/basespace_vm/venv/bin/ ####
+alias python='/home/transfer/basespace_vm/venv/bin/python'
+PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 
 # How to use
 # bash 1_CRUK.sh <path_to_sample_sheet> <name_of_negative_control_sample> <sample_pairs_text_file (optional)>
@@ -228,5 +228,5 @@ if [[ -e $NOTBASESPACE ]]
 fi
 
 
-# Queue next script in the pipeline for half an hours time- test syntax
+# Queue next script in the pipeline for half an hours time
 at now +30 minutes -f ./2_CRUK.sh
