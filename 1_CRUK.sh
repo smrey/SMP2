@@ -1,9 +1,9 @@
 #!/bin/bash
 #PBS -l walltime=20:00:00
 #PBS -l ncpus=12
-set -euo pipefail
-PBS_O_WORKDIR=(`echo $PBS_O_WORKDIR | sed "s/^\/state\/partition1//" `)
-cd $PBS_O_WORKDIR
+#set -euo pipefail
+#PBS_O_WORKDIR=(`echo $PBS_O_WORKDIR | sed "s/^\/state\/partition1//" `)
+#cd $PBS_O_WORKDIR
 
 #Description: CRUK Pipeline (Illumina paired-end). Not for use with other library preps/ experimental conditions.
 #Mode: BY_SAMPLE
@@ -35,8 +35,9 @@ countQCFlagFails() {
 }
 
 #load sample & pipeline variables
-. *.variables
-. /data/diagnostics/pipelines/CRUK/CRUK-"$version"/"$panel"/"$panel".variables
+. *.variables # How is this file to be generated? #####
+#. /data/diagnostics/pipelines/CRUK/CRUK-"$version"/"$panel"/"$panel".variables
+. /data/diagnostics/pipelines/CRUK/"$panel"/"$panel".variables
 
 ### Preprocessing ###
 
@@ -80,11 +81,11 @@ echo -e "RawSequenceQuality" > "$seqId"_"$sampleId"_QC.txt
 echo -e "$rawSequenceQuality" >> "$seqId"_"$sampleId"_QC.txt
 
 #check if all samples are written
-if [ $(find .. -maxdepth 1 -mindepth 1 -type d | wc -l | sed 's/^[[:space:]]*//g') -eq $(sort ../FASTQs.list | uniq | wc -l | sed 's/^[[:space:]]*//g') ]; then
-    echo -e "seqId=$seqId\npanel=$panel" > ../variables
+#if [ $(find .. -maxdepth 1 -mindepth 1 -type d | wc -l | sed 's/^[[:space:]]*//g') -eq $(sort ../FASTQs.list | uniq | wc -l | sed 's/^[[:space:]]*//g') ]; then
+    #echo -e "seqId=$seqId\npanel=$panel" > ../variables
     
-    #launch BS script
-    ln -s /data/archive/fastq/"$seqId"/SampleSheet.csv
-    ###TODO###
-    cp launch_script.sh .. && qsub launch_script.sh
-fi
+    #soft link sample sheet
+    #ln -s /data/archive/fastq/"$seqId"/SampleSheet.csv $outputDir ## No output dir
+    #launch second pipeline script
+    #cp 2_CRUK.sh .. && cp 3_CRUK.sh .. && bash 2_CRUK.sh
+#fi

@@ -16,7 +16,6 @@ PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 # Variables
 CONFIG="pmg-euc1"
 APPID="91091"
-NOTBASESPACE="not_bs.txt"
 
 
 # Usage checking
@@ -29,6 +28,7 @@ fi
 # Variables dependent on command line arguments
 INPUTFOLDER="$1"
 NEGATIVE="$2"
+NOTBASESPACE="$INPUTFOLDER""not_bs.txt"
 FASTQFOLDER="$INPUTFOLDER""/Data/*/"
 
 # Check if file containing sample pairs has been supplied or if one should be automatically generated
@@ -229,4 +229,4 @@ fi
 
 
 # Queue next script in the pipeline for half an hours time
-at now +30 minutes -f ./2_CRUK.sh
+at now +30 minutes -f ./3_CRUK.sh
