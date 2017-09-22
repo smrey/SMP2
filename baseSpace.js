@@ -9,10 +9,10 @@ var runconfig = JSON.parse(fs.readFileSync('./runConfig.json'));
 
 var APISERVER = config.apiServer;
 var APIVERSION = config.apiVersion;
-//Set accessToken variable from the config file
+// Set accessToken variable from the config file
 var ACCESSTOKEN = config.accessToken;
-//Load run-specific config files
-var NUMPAIRS = runconfig.numPairs;
+// Load run-specific config files
+var NUMPAIRS = parseInt(runconfig.numPairs);
 var PROJECTID = runconfig.projectID;
 var NEGATIVECONTROL = runconfig.negativeControl;
 
@@ -27,7 +27,7 @@ var APPRES;
 var TEMPLATE = "SMP2_CRUK_V2_03.15.xlsx"; //Update manually if it changes
 
 // Variables- adjust these to the desired intervals for polling and timeout of the script
-var POLLINGINTERVAL = 10000; //Change to 60000 for live
+var POLLINGINTERVAL = 60000; //Change to 60000 for live
 var TIMEOUT = 7200000; // 60000 is 1 minute // 7200000 is 2 hours
 
 //Access appResults through projectid
@@ -64,6 +64,7 @@ function checkAppResultsComplete(appResults, refresh, cb) {
             appResultsArr[i] = appResults.Response.Items[i].Id;
         }
     }
+
     //Stop execution of the polling function after a certain time has elapsed (assume the process has failed after this time)
     if (new Date().getTime() - STARTTIME > TIMEOUT) {
         clearInterval(refresh);
@@ -115,7 +116,7 @@ function iterFileId(appResFiles, i) {
 function getFileIds(appResultId, cb) {
     console.log("Getting file Ids for " + appResultId);
     request.get(
-        APISERVER + APIVERSION + "/appresults/" + appResultId + "/files?SortBy=Id&Extensions=.xlsx,.bai&Offset=0&Limit=50&SortDir=Asc",
+        APISERVER + APIVERSION + "/appresults/" + appResultId + "/files?SortBy=Id&Extensions=.xlsx,.bai,.bam&Offset=0&Limit=50&SortDir=Asc",
         {qs: {"access_token": ACCESSTOKEN}},
         function (error, response, body) {
             if (!error && response.statusCode === 200) {
@@ -139,7 +140,7 @@ function downloadFile(fileIdentifier, outFile, cb) {
         APISERVER + APIVERSION + "/files/" + fileIdentifier + "/content",
         {qs: {"access_token": ACCESSTOKEN}}).on('error', function(err) {cb(Error(err))})
         .pipe(writeFile).on('close', function(){cb(null, "Download Success " + outFile)});
-s
+
 }
 
 // Repeatedly call the function to check if the results are complete or not
