@@ -4,7 +4,7 @@ var nano = process.argv.slice(2);
 var request = require(nano + '/node_modules/request');
 var fs = require('fs');
 // Load configuration files
-var config = JSON.parse(fs.readFileSync('./config.json'));
+var config = JSON.parse(fs.readFileSync('/data/diagnostics/pipelines/CRUK/config.json'));
 var runconfig = JSON.parse(fs.readFileSync('./runConfig.json'));
 
 var APISERVER = config.apiServer;
