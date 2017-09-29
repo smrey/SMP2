@@ -1,2 +1,0 @@
-Will require a schedule to look for and update the app version- this is not within the script, but in the app configuration .json file
-How future updating and versioning will work should be discussed with the Illumina team
