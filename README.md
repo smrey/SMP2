@@ -27,7 +27,7 @@ Trimmed fastqs are output to a directory named trimmed/. The results of selected
 whether the sample has passed or failed is printed out to a QC file.
 
 
-Script 1_CRUK.sh runs once for each sample on the run.
+Script 1_CRUK.sh runs once for each sample on the sequencing run.
 
 
 Once all samples have had adapters trimmed and fastqc run, script 2 can be automatically launched. If this is not required, line 99
@@ -43,7 +43,7 @@ configured to access the correct BaseSpace location and username. For further in
 https://help.basespace.illumina.com/articles/descriptive/basespace-cli/.
 
 
-Script 2_CRUK.sh runs once per run.
+Script 2_CRUK.sh runs once per sequencing run.
 
 
 ### Required input files
