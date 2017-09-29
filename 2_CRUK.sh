@@ -4,14 +4,14 @@ set -euo pipefail
 #Description: CRUK Basespace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version=2.0
+Version=1.1.0
 
 # Aliases for local python VE
 alias python='/home/transfer/basespace_vm/venv/bin/python'
 PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 
 # How to use
-# bash 1_CRUK.sh <path_to_sample_sheet> <name_of_negative_control_sample> <sample_pairs_text_file (optional)>
+# bash 2_CRUK.sh <path_to_sample_sheet> <name_of_negative_control_sample> <sample_pairs_text_file (optional)>
 
 # Variables
 CONFIG="pmg-euc1"
@@ -29,7 +29,7 @@ fi
 INPUTFOLDER="$1"
 NEGATIVE="$2"
 NOTBASESPACE="$INPUTFOLDER""not_bs.txt"
-FASTQFOLDER="$INPUTFOLDER""/Data/*/"
+FASTQFOLDER="$INPUTFOLDER""/*/trimmed/"
 
 # Check if file containing sample pairs has been supplied or if one should be automatically generated
 if [ "$#" -lt 3 ]
@@ -229,4 +229,4 @@ fi
 
 
 # Queue next script in the pipeline for half an hours time
-at now +30 minutes -f ./3_CRUK.sh
+#at now +30 minutes -f ./3_CRUK.sh

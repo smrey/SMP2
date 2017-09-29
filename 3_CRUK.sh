@@ -4,7 +4,7 @@ set -euo pipefail
 #Description: CRUK Basespace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version=2.0
+Version=1.1.0
 
 # Path to node
 NODE="/share/apps/node-distros/node-v6.11.3-linux-x64/bin/"
