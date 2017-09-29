@@ -11,27 +11,19 @@
  
      └── seqId
 	 
-         ├── panel1
+         ├── panel
 		 
          │   ├── sample1
 		 
          │   ├── sample2
 		 
          │   └── sample3
-		 
-         └── panel2
-		 
-             ├── sample1
-			 
-             ├── sample2
-			 
-             └── sample3
-			 
 
 
 ## Introduction
 This script trims the adapter sequences from the fastq files using cutadapt (http://cutadapt.readthedocs.io/en/stable/guide.html), 
-and runs fastqc. Trimmed fastqs are output to a directory named trimmed/. The results of selected fastqc tests are parsed and 
+and runs fastqc. It also creates a symlink to the SampleSheet.csv within the panel directory (required for script 2_CRUK.sh).
+Trimmed fastqs are output to a directory named trimmed/. The results of selected fastqc tests are parsed and 
 whether the sample has passed or failed is printed out to a QC file.
 
 
@@ -51,13 +43,16 @@ configured to access the correct BaseSpace location and username. For further in
 https://help.basespace.illumina.com/articles/descriptive/basespace-cli/.
 
 
+Script 2_CRUK.sh runs once per run.
+
+
 ### Required input files
   * The Illumina SampleSheet.csv with the desired project identifier for BaseSpace in the Experiment Name field.
 
-  * Fastq pairs (read 1 and read 2) for each of the samples.
+  * Fastq pairs (read 1 and read 2) for each of the samples (pre-trimmed).
 
   * An optional text file called "not_bs.txt" containing the names of any samples on the Illumina SampleSheet.csv for which
-analysis in BaseSpace with the SMP2 app is not required. This should be placed in the same location as the script.
+analysis in BaseSpace with the SMP2 app is not required. This should be placed in the same location (directory) as the script.
 
   * An optional text file containing tumour normal pairs in the format <tumour_sample_id> <tab> <blood_sample_id> with each 
 pair on a new line. This is required if the arrangement of samples in the Illumina SampleSheet.csv does not match the expected
@@ -83,17 +78,20 @@ can be used by changing the name of the $CONFIG variable in the script.
 The SMP2 app must have been imported. Instructions to import apps are available on the Illumina website.
 
 ### Changes to the script required for initial set up
-  * Check that the fastqs are located in the location in the $FASTQFOLDER variable and check thet  the $CONFIG variable is set to the name
+  * Check that the fastqs are located in the location in the $FASTQFOLDER variable and check that the $CONFIG variable is set to the name
     of the correct config file for use of the SMP2 v2 app.
 
   * Ensure that the $APPID variable is set to the correct application id for the imported version of the SMP2 v2 app.
 
 
-### Instructions for running the script
-  * Pass the full path to the SampleSheet.csv file for the run to be analysed as the first command line argument. The assumption is 
-  that this will be the path to the run and that the fastqs will be located within the 
-  /data/archive/fastq/<RUN_ID>/Data/<SAMPLE_ID>/ 
-  directory as they would be if they were generated using the Illumina bcl2fastq on the local cluster. 
+### Instructions for manually launching the script
+If automated launch of the script is disabled in the 1_CRUK.sh file, the script 2_CRUK.sh can be manually launched according to the
+following instructions.
+
+  * Pass the full path to the SampleSheet.csv file for the run to be analysed as the first command line argument. The assumption within the
+  script by default is that the trimmed fastqs will be located for each sample within a subdirectory called trimmed/ nested within a sample 
+  directory relative to the SampleSheet.csv.
+  
   If this is not the location of the fastq files, the variable $FASTQFOLDER within the script should be changed to the
   location of the fastq files.
 
@@ -111,7 +109,7 @@ the names of these samples should be placed in a file called "not_bs.txt" with e
 should be placed in the same directory as the script.
 
 #### Full example
-bash 1_CRUK.sh /path/to/samplesheet/ NEGATIVECONTROL /path/to/pairs/file/pairs.txt
+bash 2_CRUK.sh /path/to/samplesheet/ NEGATIVECONTROL /path/to/pairs/file/pairs.txt
 
 Note that the third argument is optional.
 
@@ -131,5 +129,5 @@ tumour3 tab blood3 newline
 
 ...and so on for each pair of samples belonging to each individual.
 
-The text file can have any name. It can be placed anywhere on the same computer as the script and the full path to the file, the name of the 
+This text file can have any name. It can be placed anywhere on the same computer as the script and the full path to the file, the name of the 
 file and the extension should be passed as the third command line argument.
