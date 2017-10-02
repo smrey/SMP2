@@ -142,4 +142,20 @@ time or remove the delay make changes to line 232. If automated launch of script
 
 # 3_CRUK.sh script
 ## Requirements
-  * Requires path to Node.js to be installed and the path to the installation to be entered in the variable NODE.
+  * Requires path to Node.js to be installed and the path to the bin directory of the installation to be entered in the NODE variable. Do not 
+  include the trailing / in the path.
+
+
+## Introduction
+This script parses the path to Node.js to obtain the path to node_modules and launches the baseSpace.js Node.js script. 
+
+Script 3_CRUK.sh runs once per sequencing run.
+
+### Instructions for manually launching the script
+If automated launch of the script 3_CRUK.sh is disabled, the script can be manually launched by typing bash 3_CRUK.sh at the command line. No
+command line arguments are required to be supplied, but the NODE variable should be adjusted within the script to point to the bin directory
+of the node installation.
+
+# baseSpace.js script
+## Requirements
+
