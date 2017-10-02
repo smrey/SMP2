@@ -13,4 +13,4 @@ NODE="/share/apps/node-distros/node-v6.11.3-linux-x64/bin"
 NODE_MOD=$(echo $NODE | awk -F '/' 'BEGIN {OFS = FS} NF{NF--; print $0}')
 
 # Launch node javascript file and pass node path to script
-"$NODE"/node ./baseSpace.js "$NODE_MOD"
+"$NODE"/node ./baseSpace.js "$NODE_MOD" >baseSpace.out 2>baseSpace.err
