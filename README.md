@@ -65,6 +65,9 @@ third command line argument e.g. /path/to/file/pairs.txt.
 ### Caveats
 The script requires project names to be unique. The project name is entered in the Experiment Name field of the Illumina SampleSheet.csv. 
 
+If using a python virtual environment, the full paths must be entered into lines 10 and 11 of the script. If a virtual environment is not
+required these lines should be commented out or removed.
+
 
 Sample identifiers must be unique within a given project. Sample identifiers are entered in the Sample_ID fields of the Illumina 
 SampleSheet.csv.
@@ -131,3 +134,12 @@ tumour3 tab blood3 newline
 
 This text file can have any name. It can be placed anywhere on the same computer as the script and the full path to the file, the name of the 
 file and the extension should be passed as the third command line argument.
+
+
+Once script 2 has completed, script 3 can be automatically launched. By default it is launched with a delay of 30 minutes. To adjust the delay
+time or remove the delay make changes to line 232. If automated launch of script 3 is not required, line 232 can be removed or commented out.
+
+
+# 3_CRUK.sh script
+## Requirements
+  * Requires path to Node.js to be installed and the path to the installation to be entered in the variable NODE.
