@@ -65,12 +65,12 @@ third command line argument e.g. /path/to/file/pairs.txt.
 ### Caveats
 The script requires project names to be unique. The project name is entered in the Experiment Name field of the Illumina SampleSheet.csv. 
 
+Sample identifiers must be unique within a given project. Sample identifiers are entered in the Sample_ID fields of the Illumina 
+SampleSheet.csv.
+
 If using a python virtual environment, the full paths must be entered into lines 10 and 11 of the script. If a virtual environment is not
 required these lines should be commented out or removed.
 
-
-Sample identifiers must be unique within a given project. Sample identifiers are entered in the Sample_ID fields of the Illumina 
-SampleSheet.csv.
 
 
 ## Instructions for use
