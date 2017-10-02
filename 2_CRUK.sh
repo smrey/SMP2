@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-#Description: CRUK Basespace app pipeline
+#Description: CRUK BaseSpace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version=1.1.0
+Version="1.1.0"
 
 # Aliases for local python VE
 alias python='/home/transfer/basespace_vm/venv/bin/python'

@@ -5,7 +5,7 @@ set -euo pipefail
 PBS_O_WORKDIR=(`echo $PBS_O_WORKDIR | sed "s/^\/state\/partition1//" `)
 cd $PBS_O_WORKDIR
 
-#Description: CRUK Pipeline (Illumina paired-end). Not for use with other library preps/ experimental conditions.
+#Description: BaseSpace app pipeline (Illumina paired-end). Not for use with other library preps/ experimental conditions.
 #Mode: BY_SAMPLE
 version="1.1.0"
 
