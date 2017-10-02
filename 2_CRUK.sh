@@ -229,4 +229,4 @@ fi
 
 
 # Queue next script in the pipeline for half an hours time
-#at now +30 minutes -f ./3_CRUK.sh
+at now +30 minutes -f ./3_CRUK.sh
