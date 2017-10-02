@@ -1,5 +1,13 @@
-//PUT INFORMATION REGARDING SCRIPT IN HERE
+/*
+Script to poll the status of the SMP2 app running in Illumina BaseSpace and download required files
+once the app has completed
+Description: CRUK BaseSpace app pipeline
+Author: Sara Rey
+Status: DEVELOPMENT/TESTING
+Version: "1.1.0"
+*/
 
+//Obtain first command line argument
 var nano = process.argv.slice(2);
 
 // Load node modules
@@ -9,11 +17,10 @@ var fs = require('fs');
 var config = JSON.parse(fs.readFileSync('./config.json'));
 var runconfig = JSON.parse(fs.readFileSync('./runConfig.json'));
 
+// Obtain and set variables from configuration files
 var APISERVER = config.apiServer;
 var APIVERSION = config.apiVersion;
-// Set accessToken variable from the config file
 var ACCESSTOKEN = config.accessToken;
-// Load run-specific config files
 var NUMPAIRS = parseInt(runconfig.numPairs);
 var PROJECTID = runconfig.projectID;
 var NEGATIVECONTROL = runconfig.negativeControl;
@@ -25,15 +32,14 @@ var STARTTIME = new Date().getTime();
 var J;
 var APPRES;
 
-// Variables which may need adjusting
+// Variables which may need adjusting- Illumina named template for Excel results spreadsheet
 var TEMPLATE = "SMP2_CRUK_V2_03.15.xlsx"; //Update manually if it changes
 
-// Variables- adjust these to the desired intervals for polling and timeout of the script
+// Variables for desired intervals for polling and timeout of the script
 var POLLINGINTERVAL = 60000; //Change to 60000 for live
 var TIMEOUT = 7200000; // 60000 is 1 minute // 7200000 is 2 hours
 
-//Access appResults through projectid
-//This is asynchronous- need to put in a callback to ensure that we can access the data
+// Access appResults through projectid
 function appResultsByProject(cb){
     request.get(
         APISERVER + APIVERSION + "/projects/" + PROJECTID + "/appresults",
@@ -53,6 +59,7 @@ function appResultsByProject(cb){
     );
 }
 
+// Check whether the app has completed for all of the sample pairs on the sequencing run
 function checkAppResultsComplete(appResults, refresh, cb) {
     console.log("Checking status of app results");
     var numComplete = 0;
@@ -67,19 +74,21 @@ function checkAppResultsComplete(appResults, refresh, cb) {
         }
     }
 
-    //Stop execution of the polling function after a certain time has elapsed (assume the process has failed after this time)
+    // Stop execution of the polling function after a certain time has elapsed
     if (new Date().getTime() - STARTTIME > TIMEOUT) {
         clearInterval(refresh);
         return cb(Error("Polling timed out"));
     }
+    // Return app results when the app has completed for all samples. Also includes a check to ensure that
+    // the correct number of expected tumour sample pairs have completed
     else if (appResultsLen === NUMPAIRS && numComplete === NUMPAIRS) {
         clearInterval(refresh);
         console.log("All appSessions complete");
-        //In here want to call another function to kick off getting appresults, getting fileids and download of results
         return cb(null, appResultsArr);
     }
 }
 
+// Iterate over the app results for every sample (one app result per sample)
 function iterator(appRes, j, cb) {
     var appResId = appRes[j];
     if (appRes.length === j) {
@@ -88,12 +97,14 @@ function iterator(appRes, j, cb) {
     getFileIds(appResId, function(err, fileIds) {
         if (err) {
             return cb(Error(err));
-        }else {
+        }
+        else {
             iterFileId(fileIds, 0, j);
         }
     });
 }
 
+// Iterate over the files within each app result (several files per app result)
 function iterFileId(appResFiles, i) {
     numFiles = appResFiles.Response.Items.length;
     if (i === (numFiles-1)) {
@@ -107,18 +118,20 @@ function iterFileId(appResFiles, i) {
             downloadFile(fileId, fileName, function(err, result){
                 if (err) {
                     throw new Error(console.log("File download failed ") + err);
-                }else {
+                }
+                else {
                     console.log(result);
                     iterFileId(appResFiles, i+1);}});
         }
     }
 }
 
-// Get file IDs- to retrieve xlsx, bam and bai files only
+// Get file IDs in each app result. Retrieve xlsx, bam and bai files only.
 function getFileIds(appResultId, cb) {
     console.log("Getting file Ids for " + appResultId);
     request.get(
-        APISERVER + APIVERSION + "/appresults/" + appResultId + "/files?SortBy=Id&Extensions=.xlsx,.bai,.bam&Offset=0&Limit=50&SortDir=Asc",
+        APISERVER + APIVERSION + "/appresults/" + appResultId + "/files?SortBy=Id&Extensions=.xlsx,.bai,.bam" +
+        "&Offset=0&Limit=50&SortDir=Asc",
         {qs: {"access_token": ACCESSTOKEN}},
         function (error, response, body) {
             if (!error && response.statusCode === 200) {
@@ -135,7 +148,7 @@ function getFileIds(appResultId, cb) {
     );
 }
 
-// Download files
+// Download files by file identifier
 function downloadFile(fileIdentifier, outFile, cb) {
     var writeFile = fs.createWriteStream(outFile);
     request.get(
@@ -160,5 +173,5 @@ function poll(){
 }
 
 
-// Call function
+// Call initial function
 poll();
