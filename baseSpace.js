@@ -11,11 +11,12 @@ Version: "1.1.0"
 var nano = process.argv.slice(2);
 
 // Load node modules
-var request = require(nano + '/node_modules/request');
+const path = require('path');
+var request = require(nano + path.sep + path.join('node_modules','request'));
 var fs = require('fs');
 // Load configuration files
-var config = JSON.parse(fs.readFileSync('./config.json'));
-var runconfig = JSON.parse(fs.readFileSync('./runConfig.json'));
+var config = JSON.parse(fs.readFileSync(path.join(path.normalize('.'),'config.json')));
+var runconfig = JSON.parse(fs.readFileSync(path.join(path.normalize('.'),'runConfig.json')));
 
 // Obtain and set variables from configuration files
 var APISERVER = config.apiServer;
@@ -32,8 +33,11 @@ var STARTTIME = new Date().getTime();
 var J;
 var APPRES;
 
-// Variables which may need adjusting- Illumina named template for Excel results spreadsheet
+// Variables which may need adjusting
+// Illumina named template for Excel results spreadsheet
 var TEMPLATE = "SMP2_CRUK_V2_03.15.xlsx"; //Update manually if it changes
+// Desired location of output files
+var OUTPATH = "results"; //Change if output location of files changes
 
 // Variables for desired intervals for polling and timeout of the script
 var POLLINGINTERVAL = 60000; //Change to 60000 for live
@@ -150,7 +154,7 @@ function getFileIds(appResultId, cb) {
 
 // Download files by file identifier
 function downloadFile(fileIdentifier, outFile, cb) {
-    var writeFile = fs.createWriteStream(outFile);
+    var writeFile = fs.createWriteStream(OUTPATH + "/" + outFile);
     request.get(
         APISERVER + APIVERSION + "/files/" + fileIdentifier + "/content",
         {qs: {"access_token": ACCESSTOKEN}}).on('error', function(err) {cb(Error(err))})
