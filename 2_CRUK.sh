@@ -207,7 +207,8 @@ printf $'\n'
 
 # Create project in basespace
 echo "Creating project"
-bs -c "$CONFIG" create project "$projectName"
+bs -c "$CONFIG" create project "$proj
+ctName"
 
 
 # Get fastqs and upload to basespace
