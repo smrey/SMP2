@@ -96,5 +96,7 @@ if [ $(find .. -maxdepth 1 -mindepth 1 -type d | wc -l | sed 's/^[[:space:]]*//g
     #soft link sample sheet
     ln -s /data/archive/fastq/"$seqId"/SampleSheet.csv ..
     #launch second pipeline script
-    cp 2_CRUK.sh .. && cp 3_CRUK.sh .. && cp /data/diagnostics/pipelines/"$pipelineName"/"$pipelineName"-"$pipelineVersion"/config.json .. && bash 2_CRUK.sh >2_CRUK.out 2>2_CRUK.err
+    cp 2_CRUK.sh .. && cp 3_CRUK.sh .. && cp /data/diagnostics/pipelines/"$pipelineName"/"$pipelineName"-"$pipelineVersion"/config.json .. \
+     && cp /data/diagnostics/pipelines/"$pipelineName"/"$pipelineName"-"$pipelineVersion"/baseSpace.js \
+     && bash 2_CRUK.sh >2_CRUK.out 2>2_CRUK.err
 fi
