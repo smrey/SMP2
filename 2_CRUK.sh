@@ -195,7 +195,7 @@ if [[ "$makePairs" == 1 ]]
 fi
 
 # Count number of paired samples
-numPairs=$(cat "$SAMPLEPAIRS" | cut -f2 | wc -l)
+numPairs=$(cat "$SAMPLEPAIRS" | cut -f2 | sed '/^\s*$/d' | wc -l)
 
 # Read out the sample pairs in the order tumour blood with each pair on a new line 
 echo "Displaying sample pairs:" 
@@ -207,8 +207,7 @@ printf $'\n'
 
 # Create project in basespace
 echo "Creating project"
-bs -c "$CONFIG" create project "$proj
-ctName"
+bs -c "$CONFIG" create project "$projectName"
 
 
 # Get fastqs and upload to basespace
@@ -230,4 +229,4 @@ fi
 
 
 # Queue next script in the pipeline for half an hours time
-at now +30 minutes -f ./3_CRUK.sh
+at now +30 minutes -f ./3_CRUK.sh >3_CRUK.out 2>3_CRUK.err
