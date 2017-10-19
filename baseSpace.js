@@ -7,6 +7,8 @@ Status: DEVELOPMENT/TESTING
 Version: "1.1.0"
 */
 
+"use strict";
+
 //Obtain first command line argument
 var nano = process.argv.slice(2);
 
@@ -70,7 +72,7 @@ function checkAppResultsComplete(appResults, refresh, cb) {
     var appResultsLen = appResults.Response.Items.length;
     var appResultsArr = [];
     // See the status of all of the appSessions
-    for (i = 0; i < appResultsLen; i++) {
+    for (var i = 0; i < appResultsLen; i++) {
         if (appResults.Response.Items[i].Status === "Complete") {
             numComplete += 1;
             // Store the appResults IDs which are needed for downloading the files
@@ -110,22 +112,27 @@ function iterator(appRes, j, cb) {
 
 // Iterate over the files within each app result (several files per app result)
 function iterFileId(appResFiles, i) {
-    numFiles = appResFiles.Response.Items.length;
-    if (i === (numFiles-1)) {
+    var numFiles = appResFiles.Response.Items.length;
+    if (i === (numFiles)) {
         J+=1;
         return iterator(APPRES, J);
     }
-    if (i < (numFiles-1)) {
+    if (i < (numFiles)) {
         var fileId = appResFiles.Response.Items[i].Id;
         var fileName = appResFiles.Response.Items[i].Name;
-        if (fileName !== TEMPLATE && fileName !== NEGATIVECONTROL + ".bam") {
+        if (fileName === TEMPLATE || fileName === NEGATIVECONTROL + ".bam") {
+		iterFileId(appResFiles, i+1);
+	}
+	else {
             downloadFile(fileId, fileName, function(err, result){
                 if (err) {
                     throw new Error(console.log("File download failed ") + err);
                 }
                 else {
                     console.log(result);
-                    iterFileId(appResFiles, i+1);}});
+                    iterFileId(appResFiles, i+1);
+		}
+	    });
         }
     }
 }
