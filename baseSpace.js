@@ -95,8 +95,13 @@ function checkAppResultsComplete(appResults, refresh, cb) {
 }
 
 // Iterate over the app results for every sample (one app result per sample)
-function iterator(appRes, j, cb) {
-    var appResId = appRes[j];
+function iterAppRes(appRes, j, cb) {
+    try {
+        var appResId = appRes[j];
+    }
+    catch(err) {
+        throw new Error(console.log("Error in iterAppRes " + err));
+    }
     if (appRes.length === j) {
         return (console.log("Files retrieved"))
     }
@@ -105,7 +110,12 @@ function iterator(appRes, j, cb) {
             return cb(Error(err));
         }
         else {
-            iterFileId(fileIds, 0, j);
+            try {
+                iterFileId(fileIds, 0, j);
+            }
+            catch(err) {
+                throw new Error(console.log("Error in launch of iterFileId " + err));
+            }
         }
     });
 }
@@ -113,15 +123,30 @@ function iterator(appRes, j, cb) {
 // Iterate over the files within each app result (several files per app result)
 function iterFileId(appResFiles, i) {
     var numFiles = appResFiles.Response.Items.length;
-    if (i === (numFiles)) {
-        J+=1;
-        return iterator(APPRES, J);
+    try {
+        if (i === (numFiles)) {
+            J += 1;
+            return iterAppRes(APPRES, J);
+        }
+    }
+    catch(err) {
+        throw new Error(console.log("iterFileId error at return to iterator function " + err));
     }
     if (i < (numFiles)) {
-        var fileId = appResFiles.Response.Items[i].Id;
-        var fileName = appResFiles.Response.Items[i].Name;
+        try {
+            var fileId = appResFiles.Response.Items[i].Id;
+            var fileName = appResFiles.Response.Items[i].Name;
+        }
+        catch(err) {
+            throw new Error(console.log("iterFileId error- issue with appResults " + err));
+        }
         if (fileName === TEMPLATE || fileName === NEGATIVECONTROL + ".bam") {
-		iterFileId(appResFiles, i+1);
+            try {
+                iterFileId(appResFiles, i + 1);
+            }
+            catch(err) {
+                throw new Error(console.log("iterFileId error at recursive call " + err));
+        }
 	}
 	else {
             downloadFile(fileId, fileName, function(err, result){
@@ -130,9 +155,14 @@ function iterFileId(appResFiles, i) {
                 }
                 else {
                     console.log(result);
-                    iterFileId(appResFiles, i+1);
-		}
-	    });
+                    try {
+                        iterFileId(appResFiles, i + 1);
+                    }
+                    catch(err) {
+                        throw new Error(console.log("iterFileId error at recursive call " + err));
+                    }
+		        }
+	        });
         }
     }
 }
@@ -141,7 +171,7 @@ function iterFileId(appResFiles, i) {
 function getFileIds(appResultId, cb) {
     console.log("Getting file Ids for " + appResultId);
     request.get(
-        APISERVER + APIVERSION + "/appresults/" + appResultId + "/files?SortBy=Id&Extensions=.xlsx,.bai,.bam" +
+        APISERVER + APIVERSION + "/appresults/" + appResultId + "/files?SortBy=Id&Extensions=.xlsx,.bai" +
         "&Offset=0&Limit=50&SortDir=Asc",
         {qs: {"access_token": ACCESSTOKEN}},
         function (error, response, body) {
@@ -176,7 +206,7 @@ function poll(){
             if (err) throw new Error(console.log(err));
             checkAppResultsComplete(appRes, refresh, function(err, appResIds) {
                 if (err) throw new Error(console.log(err));
-                iterator(APPRES=appResIds, J=0, function(output){
+                iterAppRes(APPRES=appResIds, J=0, function(output){
                     console.log(output)});
             });
         });
