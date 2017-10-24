@@ -17,6 +17,8 @@ PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 CONFIG="pmg-euc1"
 APPID="91091"
 
+#load variables
+. variables
 
 # Usage checking
 if [ "$#" -lt 2 ]
@@ -31,16 +33,35 @@ NEGATIVE="$2"
 NOTBASESPACE="$INPUTFOLDER""not_bs.txt"
 FASTQFOLDER="$INPUTFOLDER""/*/trimmed/"
 
-# Check if file containing sample pairs has been supplied or if one should be automatically generated
-if [ "$#" -lt 3 ]
+
+#Check if the sample sheet indicates that a manual pairs file should be created
+if [ $pairs == 0 ]
 	then
 		SAMPLEPAIRS="$INPUTFOLDER""SamplePairs.txt"
 		makePairs=1
-	else
+elif [ $pairs == 1 ] && [ "$#" -lt 3 ]
+	then
+		echo "SamplePairs file requires manual generation. Create in script directory and relaunch" \
+		"2_CRUK.sh passing pairs file as the third command line argument."
+		exit 1
+elif [ $pairs == 1 ] && [ "$#" -eq 3 ]
+	then
 		SAMPLEPAIRS="$3"
 		# Skip generation of a SamplePairs.txt file
 		makePairs=-1
 fi
+
+
+# Check if file containing sample pairs has been supplied or if one should be automatically generated
+#if [ "$#" -lt 3 ]
+	#then
+		#SAMPLEPAIRS="$INPUTFOLDER""SamplePairs.txt"
+		#makePairs=1
+	#else
+		#SAMPLEPAIRS="$3"
+		# Skip generation of a SamplePairs.txt file
+		#makePairs=-1
+#fi
 
 
 # Check for the presence of the file with samples not to upload to BaseSpace in the same directory as the script

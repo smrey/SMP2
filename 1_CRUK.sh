@@ -91,7 +91,7 @@ echo -e "$rawSequenceQuality" >> "$seqId"_"$sampleId"_QC.txt
 
 #check if all samples are written
 if [ $(find .. -maxdepth 1 -mindepth 1 -type d | wc -l | sed 's/^[[:space:]]*//g') -eq $(sort ../FASTQs.list | uniq | wc -l | sed 's/^[[:space:]]*//g') ]; then
-    echo -e "seqId=$seqId\npanel=$panel" > ../variables
+    echo -e "seqId=$seqId\npanel=$panel\npairs=$pairs\nnegative=$negative" > ../variables
     #soft link sample sheet
     ln -s /data/archive/fastq/"$seqId"/SampleSheet.csv ..
     #launch second pipeline script, move out one directory level, save working directory to a variable
@@ -99,5 +99,5 @@ if [ $(find .. -maxdepth 1 -mindepth 1 -type d | wc -l | sed 's/^[[:space:]]*//g
      && cp /data/diagnostics/pipelines/"$pipelineName"/"$pipelineName"-"$pipelineVersion"/baseSpace.js ..
     cd ..
     wd=$PWD
-    ssh transfer@cvx-gen01 "cd $wd; bash ./2_CRUK.sh './' 'NTC' >./2_CRUK.out 2>./2_CRUK.err;"
+    ssh transfer@cvx-gen01 "cd '$wd'; bash ./2_CRUK.sh './' '$negative' >./2_CRUK.out 2>./2_CRUK.err;"
 fi
