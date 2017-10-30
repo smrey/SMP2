@@ -202,7 +202,7 @@ pairs, the bam, bai and Excel report are downloaded to a sub-directory of the sc
 
 baseSpace.js runs once per sequencing run.
 
-## Instructions for manually launching the script
+### Instructions for manually launching the script
 Ensure that the files config.json and runConfig.json are set up with the correct variables in the same directory as the script baseSpace.js.
 Create a directory in the same directory as the script and call it 'results'.
 type /path/to/node/node baseSpace.js /path/to/node_modules/ at the command line to launch the script.
