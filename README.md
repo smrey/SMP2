@@ -197,7 +197,8 @@ runConfig.json files according to the instructions below.
 
 
 ## Introduction
-This script polls the status of the 
+This script polls the status of the application for each of the tumour sample pairs. Once the application has completed for all of the 
+pairs, the bam, bai and Excel report are downloaded to a sub-directory of the script called results for each of the pairs.
 
 baseSpace.js runs once per sequencing run.
 
