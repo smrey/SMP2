@@ -27,6 +27,7 @@ var ACCESSTOKEN = config.accessToken;
 var NUMPAIRS = parseInt(runconfig.numPairs);
 var PROJECTID = runconfig.projectID;
 var NEGATIVECONTROL = runconfig.negativeControl;
+var PROJECTNAME = runconfig.projectName;
 
 // Obtain time at which script was launched to enable later timeout
 var STARTTIME = new Date().getTime();
@@ -39,7 +40,7 @@ var APPRES;
 // Illumina named template for Excel results spreadsheet
 var TEMPLATE = "SMP2_CRUK_V2_03.15.xlsx"; //Update manually if it changes
 // Desired location of output files
-var OUTPATH = path.join(path.normalize('.'), "results"); //Change if output location of files changes
+var OUTPATH = path.join(path.normalize('.'), PROJECTNAME); //Change if output location of files changes
 
 // Variables for desired intervals for polling and timeout of the script
 var POLLINGINTERVAL = 60000; //Change to 60000 for live

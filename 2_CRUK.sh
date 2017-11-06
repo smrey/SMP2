@@ -52,18 +52,6 @@ elif [ $pairs == 1 ] && [ "$#" -eq 3 ]
 fi
 
 
-# Check if file containing sample pairs has been supplied or if one should be automatically generated
-#if [ "$#" -lt 3 ]
-	#then
-		#SAMPLEPAIRS="$INPUTFOLDER""SamplePairs.txt"
-		#makePairs=1
-	#else
-		#SAMPLEPAIRS="$3"
-		# Skip generation of a SamplePairs.txt file
-		#makePairs=-1
-#fi
-
-
 # Check for the presence of the file with samples not to upload to BaseSpace in the same directory as the script
 if [[ -e $NOTBASESPACE ]]
 	then
@@ -235,11 +223,11 @@ bs -c "$CONFIG" create project "$projectName"
 locateFastqs
 
 
-# Kick off the app for each pair in turn and download files
+# Kick off the app for each pair in turn
 launchApp
 
 # Write config file for JavaScript script
-printf '%s\n' "{" "\"projectID\": ""\"$projectId\"""," "\"numPairs\": ""\"$numPairs\"""," "\"negativeControl\": ""\"$NEGATIVE\""  "}" > runConfig.json
+printf '%s\n' "{" "\"projectID\": ""\"$projectId\"""," "\"projectName\": ""\"$projectName\"""," "\"numPairs\": ""\"$numPairs\"""," "\"negativeControl\": ""\"$NEGATIVE\""  "}" > runConfig.json
 
 
 # Delete the file that contained the samples that were not for upload and analysis in BaseSpace
