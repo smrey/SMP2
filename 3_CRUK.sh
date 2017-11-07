@@ -31,10 +31,10 @@ cd ..
 while read line
 	do
 		tum=$(printf "$line" | cut -d$'\t' -f1)
-		nor=$(printf "$line" | cut -d$'\t' -f1)
+		nor=$(printf "$line" | cut -d$'\t' -f2)
 		mv "$worklistId"/*"$tum"*.xlsx "$worklistId"/"$tum"
 		mv "$worklistId"/*"$tum"*.bam "$worklistId"/"$tum"
 		mv "$worklistId"/*"$tum"*.bai "$worklistId"/"$tum"
 		mv "$worklistId"/*"$nor"*.bam "$worklistId"/"$tum"
 		mv "$worklistId"/*"$nor"*.bai "$worklistId"/"$tum"
-done < "SamplePairs.txt"
+done < "SamplePairs.txt" >3_CRUK_copy.out 2>3_CRUK_copy.err
