@@ -6,6 +6,9 @@ set -euo pipefail
 #Status: DEVELOPMENT/TESTING
 Version="1.1.0"
 
+# Commandline argument
+SAMPLEPAIRS="$1"
+
 # Load any variables file to obtain worksheet id
 . $(ls -d */ | tail -n 1)/*.variables
 
@@ -19,9 +22,9 @@ NODE_MOD=$(echo $NODE | awk -F '/' 'BEGIN {OFS = FS} NF{NF--; print $0}')
 mkdir "$worklistId"
 
 # Make directories with the tumour sample id name to put the results in
-cd "$worklistId"
-cut -f1 ../SamplePairs.txt | xargs -L 1 mkdir
-cd ..
+#cd "$worklistId"
+cut -f1 "$SAMPLEPAIRS" | xargs -L 1 -i mkdir "$worklistId""/"{}
+#cd ..
 
 
 # Launch node javascript file and pass node path to script
@@ -37,4 +40,4 @@ while read line
 		mv "$worklistId"/*"$tum"*.bai "$worklistId"/"$tum"
 		mv "$worklistId"/*"$nor"*.bam "$worklistId"/"$tum"
 		mv "$worklistId"/*"$nor"*.bai "$worklistId"/"$tum"
-done < "SamplePairs.txt" >3_CRUK_copy.out 2>3_CRUK_copy.err
+done < "$SAMPLEPAIRS" >3_CRUK_copy.out 2>3_CRUK_copy.err
