@@ -22,10 +22,7 @@ NODE_MOD=$(echo $NODE | awk -F '/' 'BEGIN {OFS = FS} NF{NF--; print $0}')
 mkdir "$worklistId"
 
 # Make directories with the tumour sample id name to put the results in
-#cd "$worklistId"
 cut -f1 "$SAMPLEPAIRS" | xargs -L 1 -i mkdir "$worklistId""/"{}
-#cd ..
-
 
 # Launch node javascript file and pass node path to script
 "$NODE"/node ./baseSpace.js "$NODE_MOD" >baseSpace.out 2>baseSpace.err
