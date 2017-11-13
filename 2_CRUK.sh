@@ -236,6 +236,9 @@ if [[ -e $NOTBASESPACE ]]
 		rm "$NOTBASESPACE"
 fi
 
+# Write name of sample pairs file name to file
+printf "$SAMPLEPAIRS" >"pairFn.txt"
+
 
 # Queue next script in the pipeline for half an hours time
-at now +30 minutes -f ./3_CRUK.sh >3_CRUK.out 2>3_CRUK.err "$SAMPLEPAIRS"
+at now +30 minutes -f ./3_CRUK.sh >3_CRUK.out 2>3_CRUK.err

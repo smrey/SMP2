@@ -6,8 +6,8 @@ set -euo pipefail
 #Status: DEVELOPMENT/TESTING
 Version="1.1.0"
 
-# Commandline argument
-SAMPLEPAIRS="$1"
+# Load pair file name
+SAMPLEPAIRS=$(cat "pairFn.txt")
 
 # Load any variables file to obtain worksheet id
 . $(ls -d */ | tail -n 1)/*.variables
@@ -30,7 +30,11 @@ cut -f1 "$SAMPLEPAIRS" | xargs -L 1 -i mkdir "$worklistId""/"{}
 # Launch node javascript file and pass node path to script
 "$NODE"/node ./baseSpace.js "$NODE_MOD" >baseSpace.out 2>baseSpace.err
 
-# 
+
+# Delete temporary file
+rm "pairFn.txt"
+
+# Move downloaded files into directory with tumour sample name
 while read line
 	do
 		tum=$(printf "$line" | cut -d$'\t' -f1)
