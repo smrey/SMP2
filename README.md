@@ -182,7 +182,8 @@ Script 3_CRUK.sh runs once per sequencing run.
 If automated launch of the script 3_CRUK.sh is disabled, the script can be manually launched by typing bash 3_CRUK.sh at the command line. No
 command line arguments are required to be supplied, but the NODE variable should be adjusted within the script to point to the bin directory
 of the node installation. If the script is not resuming from the previous step of the pipeline, it will be necessary to create config.json and
-runConfig.json files according to the instructions below.
+runConfig.json files according to the instructions below. A file called pairsFn.txt will also need to be created containing the name of the
+sample pairs file. This is usually SamplePairs,txt, but could be something else (user's choice) if the pairs file was manually created.
 
 
 # baseSpace.js script
