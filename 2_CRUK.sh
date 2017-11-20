@@ -230,12 +230,6 @@ launchApp
 printf '%s\n' "{" "\"projectID\": ""\"$projectId\"""," "\"projectName\": ""\"$projectName\"""," "\"numPairs\": ""\"$numPairs\"""," "\"negativeControl\": ""\"$NEGATIVE\""  "}" > runConfig.json
 
 
-# Delete the file that contained the samples that were not for upload and analysis in BaseSpace
-if [[ -e $NOTBASESPACE ]]
-	then
-		rm "$NOTBASESPACE"
-fi
-
 # Write name of sample pairs file name to file
 printf "$SAMPLEPAIRS" >"pairFn.txt"
 
