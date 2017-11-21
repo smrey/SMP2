@@ -6,12 +6,20 @@ set -euo pipefail
 #Status: DEVELOPMENT/TESTING
 Version="1.1.0"
 
+# Name of file containing samples to not be uploaded to BaseSpace
+NOTBASESPACE=./"not_bs.txt"
+
 # Load pair file name
 SAMPLEPAIRS=$(cat "pairFn.txt")
 
 
 # Remove pairs that are not for analysis in BaseSpace
-grep -f "not_bs.txt" -v "$SAMPLEPAIRS">"analysed_pairs.txt"
+if [[ -e "$NOTBASESPACE" ]]
+	then
+		grep -f "$NOTBASESPACE" -v "$SAMPLEPAIRS">"analysed_pairs.txt"
+	else
+		"$SAMPLEPAIRS">"analysed_pairs.txt"
+fi
 
 
 # Load any variables file to obtain worksheet id
