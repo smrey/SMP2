@@ -18,7 +18,7 @@ if [[ -e "$NOTBASESPACE" ]]
 	then
 		grep -f "$NOTBASESPACE" -v "$SAMPLEPAIRS">"analysed_pairs.txt"
 	else
-		"$SAMPLEPAIRS">"analysed_pairs.txt"
+		cat "$SAMPLEPAIRS">"analysed_pairs.txt"
 fi
 
 
