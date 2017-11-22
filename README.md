@@ -80,6 +80,7 @@ Script 2_CRUK.sh runs once per sequencing run.
 
   * An optional text file called "not_bs.txt" containing the names of any samples on the Illumina SampleSheet.csv for which
 analysis in BaseSpace with the SMP2 app is not required. This should be placed in the same location (directory) as the script.
+This must be used with the automated creation of a sample pairs file (where the pairs variable is set to 0 in the sample sheet).
 
   * An optional text file containing tumour normal pairs in the format <tumour_sample_id> <tab> <blood_sample_id> with each 
 pair on a new line. This is required if the arrangement of samples in the Illumina SampleSheet.csv does not match the expected
@@ -129,7 +130,8 @@ following instructions.
 
   * If a manually created file containing the tumour blood pairs is required, place this file on the same computer as the script and
   files to be analysed. Pass the full path to the file, the name of this file and the extension as the third command line argument.
-  e.g. /path/to/pairs/file/pairs.txt. 
+  e.g. /path/to/pairs/file/pairs.txt. Samples can also be skipped by creating a list of samples in a file called not_bs.txt. If this option
+  is used with manual launch of 2_CRUK.sh, the pairs variable in the variables file in the run folder must be set to 0.
   
   * If the automatic pair generation option is used (default), the automatically generated SamplePairs.txt file will be created in the
   same location as the SampleSheet.csv.
@@ -184,7 +186,8 @@ command line arguments are required to be supplied, but the NODE variable should
 of the node installation. If the script is not resuming from the previous step of the pipeline, it will be necessary to create config.json and
 runConfig.json files according to the instructions below. A file called pairsFn.txt will also need to be created containing the name of the
 sample pairs file. This is usually SamplePairs.txt, but could be something else (user's choice) if the pairs file was manually created. Any
-pairs which have failed to successfully complete the SMP2v2 application process must be removed from the sample pairs file.
+pairs which have failed to successfully complete the SMP2v2 application process must be removed from the sample pairs file or included in a
+file called not_bs.txt.
 
 
 # baseSpace.js script
