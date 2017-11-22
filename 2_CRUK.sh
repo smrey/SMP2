@@ -164,7 +164,7 @@ function launchApp {
 			# Stop iteration on first empty line of SamplePairs.txt file in case EOF marker is absent for any reason
 			if [[ -z $pair ]]
 				then
-					exit
+					return 0
 			fi
 			echo "Launching app for ""$pair"
 			
