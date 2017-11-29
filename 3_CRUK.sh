@@ -4,7 +4,7 @@ set -euo pipefail
 #Description: CRUK BaseSpace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version="1.1.0"
+Version="1.1.1"
 
 # Name of file containing samples to not be uploaded to BaseSpace
 NOTBASESPACE=./"not_bs.txt"
