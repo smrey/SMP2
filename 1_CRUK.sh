@@ -7,7 +7,7 @@ cd $PBS_O_WORKDIR
 
 #Description: CRUK Pipeline (Illumina paired-end). Not for use with other library preps/ experimental conditions.
 #Mode: BY_SAMPLE
-version="1.0.1"
+version="1.0.2"
 
 # Directory structure required for pipeline
 #
