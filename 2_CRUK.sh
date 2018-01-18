@@ -3,7 +3,7 @@ set -euo pipefail
 
 #Description: CRUK BaseSpace app pipeline
 #Author: Sara Rey
-#Status: DEVELOPMENT/TESTING
+#Status: RELEASE
 Version="1.1.1"
 
 # Aliases for local python VE

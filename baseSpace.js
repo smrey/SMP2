@@ -3,7 +3,7 @@ Script to poll the status of the SMP2 app running in Illumina BaseSpace and down
 once the app has completed
 Description: CRUK BaseSpace app pipeline
 Author: Sara Rey
-Status: DEVELOPMENT/TESTING
+Status: RELEASE
 Version: "1.1.0"
 */
 
