@@ -5,9 +5,9 @@ set -euo pipefail
 PBS_O_WORKDIR=(`echo $PBS_O_WORKDIR | sed "s/^\/state\/partition1//" `)
 cd $PBS_O_WORKDIR
 
-#Description: CRUK Pipeline (Illumina paired-end). Not for use with other library preps/ experimental conditions.
+#Description: BaseSpace app pipeline (Illumina paired-end). Not for use with other library preps/ experimental conditions.
 #Mode: BY_SAMPLE
-version="1.0.2"
+version="1.1.1"
 
 # Directory structure required for pipeline
 #
@@ -91,10 +91,13 @@ echo -e "$rawSequenceQuality" >> "$seqId"_"$sampleId"_QC.txt
 
 #check if all samples are written
 if [ $(find .. -maxdepth 1 -mindepth 1 -type d | wc -l | sed 's/^[[:space:]]*//g') -eq $(sort ../FASTQs.list | uniq | wc -l | sed 's/^[[:space:]]*//g') ]; then
-    echo -e "seqId=$seqId\npanel=$panel" > ../variables
-    
+    echo -e "seqId=$seqId\npanel=$panel\npairs=$pairs\nnegative=$negative" > ../variables
     #soft link sample sheet
     ln -s /data/archive/fastq/"$seqId"/SampleSheet.csv ..
-    #launch second pipeline script
-    cp 2_CRUK.sh .. && bash 2_CRUK.sh >2_CRUK.out 2>2_CRUK.err
+    #launch second pipeline script, move out one directory level, save working directory to a variable
+    cp 2_CRUK.sh .. && cp 3_CRUK.sh .. && cp /data/diagnostics/pipelines/"$pipelineName"/"$pipelineName"-"$pipelineVersion"/config.json .. \
+     && cp /data/diagnostics/pipelines/"$pipelineName"/"$pipelineName"-"$pipelineVersion"/baseSpace.js ..
+    cd ..
+    wd=$PWD
+    ssh transfer@cvx-gen01 "cd '$wd'; bash ./2_CRUK.sh './' '$negative' >./2_CRUK.out 2>./2_CRUK.err;"
 fi
