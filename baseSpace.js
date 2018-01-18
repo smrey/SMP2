@@ -4,7 +4,7 @@ once the app has completed
 Description: CRUK BaseSpace app pipeline
 Author: Sara Rey
 Status: RELEASE
-Version: "1.1.0"
+Version: "1.1.1"
 */
 
 "use strict";
@@ -44,7 +44,7 @@ var OUTPATH = path.join(path.normalize('.'), PROJECTNAME); //Change if output lo
 
 // Variables for desired intervals for polling and timeout of the script
 var POLLINGINTERVAL = 60000; //Change to 60000 for live
-var TIMEOUT = 7200000; // 60000 is 1 minute // 7200000 is 2 hours
+var TIMEOUT = 10800000; // 60000 is 1 minute // 7200000 is 2 hours
 
 // Access appResults through projectid
 function appResultsByProject(cb){
