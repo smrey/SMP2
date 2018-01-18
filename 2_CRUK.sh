@@ -4,7 +4,7 @@ set -euo pipefail
 #Description: CRUK BaseSpace app pipeline
 #Author: Sara Rey
 #Status: DEVELOPMENT/TESTING
-Version="1.1.0"
+Version="1.1.1"
 
 # Aliases for local python VE
 alias python='/home/transfer/basespace_vm/venv/bin/python'
@@ -15,8 +15,10 @@ PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 
 # Variables
 CONFIG="pmg-euc1"
-APPID="91091"
+APPID="123123"
 
+#load variables
+. variables
 
 # Usage checking
 if [ "$#" -lt 2 ]
@@ -31,12 +33,19 @@ NEGATIVE="$2"
 NOTBASESPACE="$INPUTFOLDER""not_bs.txt"
 FASTQFOLDER="$INPUTFOLDER""/*/trimmed/"
 
-# Check if file containing sample pairs has been supplied or if one should be automatically generated
-if [ "$#" -lt 3 ]
+
+#Check if the sample sheet indicates that a manual pairs file should be created
+if [ $pairs == 0 ]
 	then
 		SAMPLEPAIRS="$INPUTFOLDER""SamplePairs.txt"
 		makePairs=1
-	else
+elif [ $pairs == 1 ] && [ "$#" -lt 3 ]
+	then
+		echo "SamplePairs file requires manual generation. Create in script directory and relaunch" \
+		"2_CRUK.sh passing pairs file as the third command line argument."
+		exit 1
+elif [ $pairs == 1 ] && [ "$#" -eq 3 ]
+	then
 		SAMPLEPAIRS="$3"
 		# Skip generation of a SamplePairs.txt file
 		makePairs=-1
@@ -155,7 +164,7 @@ function launchApp {
 			# Stop iteration on first empty line of SamplePairs.txt file in case EOF marker is absent for any reason
 			if [[ -z $pair ]]
 				then
-					exit
+					return 0
 			fi
 			echo "Launching app for ""$pair"
 			
@@ -195,7 +204,7 @@ if [[ "$makePairs" == 1 ]]
 fi
 
 # Count number of paired samples
-numPairs=$(cat "$SAMPLEPAIRS" | cut -f2 | wc -l)
+numPairs=$(cat "$SAMPLEPAIRS" | cut -f2 | sed '/^\s*$/d' | wc -l)
 
 # Read out the sample pairs in the order tumour blood with each pair on a new line 
 echo "Displaying sample pairs:" 
@@ -207,27 +216,23 @@ printf $'\n'
 
 # Create project in basespace
 echo "Creating project"
-bs -c "$CONFIG" create project "$proj
-ctName"
+bs -c "$CONFIG" create project "$projectName"
 
 
 # Get fastqs and upload to basespace
 locateFastqs
 
 
-# Kick off the app for each pair in turn and download files
+# Kick off the app for each pair in turn
 launchApp
 
 # Write config file for JavaScript script
-printf '%s\n' "{" "\"projectID\": ""\"$projectId\"""," "\"numPairs\": ""\"$numPairs\"""," "\"negativeControl\": ""\"$NEGATIVE\""  "}" > runConfig.json
+printf '%s\n' "{" "\"projectID\": ""\"$projectId\"""," "\"projectName\": ""\"$projectName\"""," "\"numPairs\": ""\"$numPairs\"""," "\"negativeControl\": ""\"$NEGATIVE\""  "}" > runConfig.json
 
 
-# Delete the file that contained the samples that were not for upload and analysis in BaseSpace
-if [[ -e $NOTBASESPACE ]]
-	then
-		rm "$NOTBASESPACE"
-fi
+# Write name of sample pairs file name to file
+printf "$SAMPLEPAIRS" >"pairFn.txt"
 
 
 # Queue next script in the pipeline for half an hours time
-at now +30 minutes -f ./3_CRUK.sh
+at now +30 minutes -f ./3_CRUK.sh >3_CRUK.out 2>3_CRUK.err
