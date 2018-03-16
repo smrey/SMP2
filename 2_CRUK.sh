@@ -2,9 +2,9 @@
 set -euo pipefail
 
 #Description: CRUK BaseSpace app pipeline
-#Author: Sara Rey
+#Author: Sara Rey and Chris Medway
 #Status: RELEASE
-Version="1.1.1"
+Version="1.1.2"
 
 # Aliases for local python VE
 alias python='/home/transfer/basespace_vm/venv/bin/python'
@@ -15,7 +15,7 @@ PATH="$PATH":/home/transfer/basespace_vm/venv/bin/
 
 # Variables
 CONFIG="pmg-euc1"
-APPID="123123"
+APPID="105105"
 
 #load variables
 . variables
