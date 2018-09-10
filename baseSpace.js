@@ -4,7 +4,7 @@ once the app has completed
 Description: CRUK BaseSpace app pipeline
 Author: Sara Rey
 Status: RELEASE
-Version: "1.1.1"
+Version: "1.1.2"
 */
 
 "use strict";
@@ -38,7 +38,7 @@ var APPRES;
 
 // Variables which may need adjusting
 // Illumina named template for Excel results spreadsheet
-var TEMPLATE = "SMP2_CRUK_V2_03.15.xlsx"; //Update manually if it changes
+var TEMPLATE = "SMP2_CRUK_V2_03.17.xlsx"; //Update manually if it changes
 // Desired location of output files
 var OUTPATH = path.join(path.normalize('.'), PROJECTNAME); //Change if output location of files changes
 
